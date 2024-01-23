@@ -9,7 +9,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class AsyncPromise <T> (func: PromiseFunction<T>) : Promise <T> {
+class AsyncPromise<T>(func: PromiseFunction<T>) : Promise<T> {
 
     companion object : PromiseEnvironment {
         override fun <T> newPromise(func: PromiseFunction<T>) = AsyncPromise(func)
@@ -25,7 +25,7 @@ class AsyncPromise <T> (func: PromiseFunction<T>) : Promise <T> {
 
     override fun getPromiseResolver() = promiseResolver
 
-    private val promiseResolver = object : PromiseResolver <T> {
+    private val promiseResolver = object : PromiseResolver<T> {
 
         override fun getPromise() = this@AsyncPromise
 
@@ -59,8 +59,13 @@ class AsyncPromise <T> (func: PromiseFunction<T>) : Promise <T> {
     private var endTimeMillis: Long? = null
 
 
-    override fun getStartTime(): LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(startTimeMillis), ZoneId.systemDefault())
-    override fun getEndTime(): LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(endTimeMillis ?: System.currentTimeMillis()), ZoneId.systemDefault())
+    override fun getStartTime(): LocalDateTime =
+        LocalDateTime.ofInstant(Instant.ofEpochMilli(startTimeMillis), ZoneId.systemDefault())
+
+    override fun getEndTime(): LocalDateTime = LocalDateTime.ofInstant(
+        Instant.ofEpochMilli(endTimeMillis ?: System.currentTimeMillis()),
+        ZoneId.systemDefault()
+    )
 
     init {
         job = CoroutineScope(Dispatchers.Default).async {
@@ -97,7 +102,7 @@ class AsyncPromise <T> (func: PromiseFunction<T>) : Promise <T> {
                 return@promise
             }
             promiseResolver.rejectCallback.add {
-                 promiseResolver.throwable?.let { runBlocking { resolve(func(it)) } }
+                promiseResolver.throwable?.let { runBlocking { resolve(func(it)) } }
             }
         }
     }

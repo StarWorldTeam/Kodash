@@ -8,7 +8,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class ThreadPromise <T> (func: PromiseFunction<T>) : Promise <T> {
+class ThreadPromise<T>(func: PromiseFunction<T>) : Promise<T> {
 
     private var state = PromiseState.IDLE
         set(value) {
@@ -36,7 +36,7 @@ class ThreadPromise <T> (func: PromiseFunction<T>) : Promise <T> {
         thread.setUncaughtExceptionHandler { _, exception -> getPromiseResolver().reject(exception) }
     }
 
-    private val promiseResolver = object : PromiseResolver <T> {
+    private val promiseResolver = object : PromiseResolver<T> {
 
         override fun getPromise() = this@ThreadPromise
 
@@ -66,8 +66,13 @@ class ThreadPromise <T> (func: PromiseFunction<T>) : Promise <T> {
 
     }
 
-    override fun getStartTime(): LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(startTimeMillis), ZoneId.systemDefault())
-    override fun getEndTime(): LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(endTimeMillis ?: System.currentTimeMillis()), ZoneId.systemDefault())
+    override fun getStartTime(): LocalDateTime =
+        LocalDateTime.ofInstant(Instant.ofEpochMilli(startTimeMillis), ZoneId.systemDefault())
+
+    override fun getEndTime(): LocalDateTime = LocalDateTime.ofInstant(
+        Instant.ofEpochMilli(endTimeMillis ?: System.currentTimeMillis()),
+        ZoneId.systemDefault()
+    )
 
 
     override fun getPromiseEnvironment() = AsyncPromise

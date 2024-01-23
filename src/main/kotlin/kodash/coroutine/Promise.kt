@@ -33,7 +33,7 @@ interface Promise<T> {
 
         /** 创建Promise控制器 */
         fun <T> withResolvers(promiseEnvironment: PromiseEnvironment = AsyncPromise): PromiseResolver<T> {
-            return (promiseEnvironment.newPromise <T> {}).getPromiseResolver()
+            return (promiseEnvironment.newPromise<T> {}).getPromiseResolver()
         }
 
         /**
@@ -93,10 +93,13 @@ interface Promise<T> {
 
         /** 将值转换为一个 Promise。当传入的值是 Promise 时，直接返回这个 Promise。 */
         fun <T> resolve(value: T) = promise { resolve(value) }
+
         /** 将值转换为一个 Promise。当传入的值是 Promise 时，直接返回这个 Promise。 */
         fun <T> resolve(promise: Promise<T>) = promise
+
         /** 返回一个空 Promise */
         fun resolve() = promiseVoid { resolve() }
+
         /** 返回一个已失败的 Promise 对象，失败原因为给定的参数。 */
         fun reject(throwable: Throwable = Throwable()) = promiseVoid { reject(throwable) }
 
@@ -163,7 +166,7 @@ interface Promise<T> {
      * 等待 Promise 执行完毕
      */
     fun join(): Promise<T> = this.also {
-        runWithNoError  {
+        runWithNoError {
             awaitSync()
         }
     }

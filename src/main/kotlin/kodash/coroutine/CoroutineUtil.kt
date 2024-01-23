@@ -49,12 +49,16 @@ enum class PromiseState(
 
     /** 空闲 */
     IDLE(false),
+
     /** 运行中 */
     RUNNING(false),
+
     /** 已兑现 */
     COMPLETED(true),
+
     /** 已失败 */
     REJECTED(true),
+
     /** 已停止 */
     STOPPED(true);
 

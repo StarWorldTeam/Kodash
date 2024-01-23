@@ -1,6 +1,6 @@
 package kodash.logic
 
-open class MatcherError(reason: Throwable? = null): RuntimeException(reason)
+open class MatcherError(reason: Throwable? = null) : RuntimeException(reason)
 
 class MatcherBreak(reason: Throwable? = null) : MatcherError(reason)
 class MatcherContinue : MatcherError()
@@ -24,7 +24,7 @@ class Matcher<T, R> {
     fun match(value: T): R {
         for (i in logic) {
             try {
-                if(i.first(value)) return i.second(this, value)
+                if (i.first(value)) return i.second(this, value)
             } catch (_: MatcherContinue) {
 
             } catch (error: MatcherBreak) {
