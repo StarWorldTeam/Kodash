@@ -19,6 +19,9 @@ interface PromiseResolver<T> {
      */
     fun reject() = reject(CancellationException())
 
+    /**
+     * @see Promise.await
+     */
     suspend fun <R> await(promise: Promise<R>) = promise.await()
 
 }

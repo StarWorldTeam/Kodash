@@ -1,9 +1,7 @@
 package kodash.coroutine
 
+import kodash.type.None
 import kotlin.coroutines.cancellation.CancellationException
-
-
-object None
 
 /**
  * 包装了多个错误对象的单个错误对象。
@@ -14,16 +12,6 @@ interface PromiseEnvironment {
 
     fun <T> newPromise(func: PromiseFunction<T>): Promise<T>
 
-}
-
-/**
- * 执行一个函数并忽视这个函数的结果
- */
-fun runWithNoError(block: () -> Unit) {
-    try {
-        block()
-    } catch (_: Throwable) {
-    }
 }
 
 typealias PromiseFunction <T> = suspend PromiseResolver<T>.() -> Unit
@@ -69,8 +57,11 @@ fun Promise<*>.assertNotStopped() {
         throw CancellationException()
 }
 
-var <T> Promise<T>.awaited: T
+/**
+ * 已经兑现的值
+ * @see Promise.awaitSync
+ */
+val <T> Promise<T>.awaited: T
     get() {
         return this.awaitSync()
     }
-    set(_) {}
