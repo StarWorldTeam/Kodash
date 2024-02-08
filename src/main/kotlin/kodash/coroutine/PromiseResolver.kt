@@ -10,12 +10,12 @@ interface PromiseResolver<T> {
     /** 返回并结束执行 */
     fun resolve(value: T) = value
 
-    /** 报错并结束执行 */
+    /** 抛出错误并结束执行 */
     fun reject(throwable: Throwable) = throwable
 
     /**
      * 报错并结束执行
-     * @see CancellationException
+     * @exception CancellationException
      */
     fun reject() = reject(CancellationException())
 

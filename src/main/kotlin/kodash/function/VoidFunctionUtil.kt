@@ -21,5 +21,5 @@ fun <T> memorize(block: () -> T): T {
             "method=${caller.className}::${caller.methodName};" +
             "native=${caller.isNativeMethod};" +
             "file=${caller.fileName}@${caller.lineNumber}"
-    return (memory.getOrPut(key, block) as T)!!
+    return (memory.getOrPut(key, block) as? T)!!
 }
