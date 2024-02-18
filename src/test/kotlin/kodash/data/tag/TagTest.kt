@@ -13,7 +13,7 @@ class TagTest {
                 list.add(list)
                 putList("list", list)
                 putCompound("tag", this)
-                toString().let(::println)
+                toString()
             }
         }.let {
             assert(it.isFailure)
