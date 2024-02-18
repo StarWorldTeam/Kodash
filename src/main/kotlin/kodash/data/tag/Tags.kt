@@ -47,8 +47,8 @@ open class NumberTag(private val number: Number) : ITag<Number> {
 
 class ListTag(vararg init: ITag<*>, private val list: MutableList<ITag<*>> = mutableListOf(*init)) : ITag<List<*>>, MutableList<ITag<*>> by list {
 
-    override fun read(): List<*> = Collections.unmodifiableList(list.map { it.read() })
-    override fun copy() = ListTag().apply { addAll(list.map { it.copy() }) }
+    override fun read(): List<*> = Collections.unmodifiableList(this.map { it.read() })
+    override fun copy() = ListTag().apply { addAll(this.map { it.copy() }) }
 
     override fun toString(): String {
         var string = "["

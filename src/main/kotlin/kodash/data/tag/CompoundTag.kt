@@ -2,7 +2,7 @@ package kodash.data.tag
 
 import java.util.*
 
-class CompoundTag : ITag<Map<String, ITag<*>>> {
+class CompoundTag : ITag<Map<String, Any?>> {
 
     private val map: MutableMap<String, ITag<*>> = mutableMapOf()
 
@@ -18,11 +18,11 @@ class CompoundTag : ITag<Map<String, ITag<*>>> {
     operator fun contains(name: String) = map.contains(name)
     operator fun get(name: String): ITag<*>? = map[name]
 
-    override fun copy(): ITag<Map<String, ITag<*>>> = CompoundTag().apply {
+    override fun copy(): ITag<Map<String, Any?>> = CompoundTag().apply {
         putAll(this@CompoundTag.map.mapValues { it.value.copy() }.entries)
     }
 
-    override fun read(): Map<String, ITag<*>> = Collections.unmodifiableMap(map.toMap())
+    override fun read(): Map<String, Any?> = Collections.unmodifiableMap(map.toMap().mapValues { it.value.read() })
 
     fun getEntries() = map.entries
 
