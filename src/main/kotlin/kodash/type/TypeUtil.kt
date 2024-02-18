@@ -25,3 +25,8 @@ fun <T> UnsafeScope.cast(value: Any?): T = value as T
 fun UnsafeScope.exitProcess(code: Int) = Unit.apply {
     kotlin.system.exitProcess(code)
 }
+
+inline fun <I, reified O> I.convertIfNotOfType(block: (I) -> O) = when (this) {
+    is O -> this
+    else -> block(this)
+}

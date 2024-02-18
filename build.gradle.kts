@@ -24,10 +24,18 @@ version = "1.0.0"
 
 repositories {
     mavenCentral()
+    maven { name = "Jitpack"; url = uri("https://jitpack.io") }
 }
 
 dependencies {
     testImplementation(kotlin("test"))
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.15.3")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.15.3")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.3")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2")
+    implementation("de.undercouch:bson4jackson:2.15.0")
 
     implementation("com.google.guava:guava:32.1.3-jre")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0-RC2")
