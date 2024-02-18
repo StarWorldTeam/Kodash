@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import de.undercouch.bson4jackson.BsonFactory
+import kodash.type.ICopyable
 import kodash.type.convertIfNotOfType
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -66,11 +67,11 @@ class ListTag(vararg init: ITag<*>, private val list: MutableList<ITag<*>> = mut
 
 }
 
-class UnknownTag<T>(private val value: T) : ITag<T> {
-    override fun copy() = UnknownTag(value)
+class UnknownTag(private val value: Any?) : ITag<Any?> {
+    override fun copy() = UnknownTag(if (value is ICopyable<*>) value.copy() else value)
     override fun read() = value
 
-    override fun toString() = "unknown"
+    override fun toString() = if(value is ITaggable<*>) value.toString() else "unknown"
 }
 
 class NullTag : ITag<Any?> {
