@@ -26,7 +26,7 @@ interface Parser<T> {
     fun parse(buffer: CharBuffer): ParseResult<T>
 
     fun parseOrThrow(buffer: CharBuffer) = parse(buffer).also {
-        if (!it.isSuccess()) throw IllegalStateException()
+        if (!it.isSuccess()) throw it.getThrowable()
     }
 
 }

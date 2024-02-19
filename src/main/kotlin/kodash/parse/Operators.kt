@@ -24,7 +24,7 @@ object Parsers {
         return try {
             val value = block()
             if (value.isSuccess()) value
-            else throw IllegalStateException()
+            else throw value.getThrowable()
         } catch (error: Throwable) {
             buffer.position(position)
             ParseResult.failure()
@@ -95,7 +95,7 @@ class OptionalOperator<T>(private val parser: Parser<T>) : Parser<T?> {
         try {
             val result = parser.parse(buffer)
             if (result.isSuccess()) return ParseResult.success(result.getValue())
-            throw IllegalStateException()
+            throw result.getThrowable()
         } catch (_: Throwable) {
             buffer.position(start)
             return ParseResult.success(defaultMapper?.let { it() })
