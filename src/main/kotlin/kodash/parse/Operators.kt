@@ -23,7 +23,7 @@ object Parsers {
     fun <T> gotoWhenError(buffer: CharBuffer, position: Int = buffer.position(), block: () -> ParseResult<T>): ParseResult<T> {
         return try {
             val value = block()
-            if (value.getStatus()) value
+            if (value.isSuccess()) value
             else throw IllegalStateException()
         } catch (error: Throwable) {
             buffer.position(position)
@@ -42,7 +42,7 @@ class ChoiceOperator<T>(private vararg val choices: Parser<T>) : Parser<T> {
                     val result = i.parse(buffer)
                     result
                 }
-                if (result.getStatus()) return result
+                if (result.isSuccess()) return result
             } catch (_: Throwable) {}
         }
         return ParseResult.failure()
@@ -94,7 +94,7 @@ class OptionalOperator<T>(private val parser: Parser<T>) : Parser<T?> {
         val start = buffer.position()
         try {
             val result = parser.parse(buffer)
-            if (result.getStatus()) return ParseResult.success(result.getValue())
+            if (result.isSuccess()) return ParseResult.success(result.getValue())
             throw IllegalStateException()
         } catch (_: Throwable) {
             buffer.position(start)
@@ -125,7 +125,7 @@ class RepeatingOperator<T>(private val parser: Parser<T>, private val min: Int =
             try {
                 if (current >= max) break
                 val parsed = parser.parse(buffer)
-                if (parsed.getStatus()) result += parsed.getValue()
+                if (parsed.isSuccess()) result += parsed.getValue()
                 else break
                 current += 1
             } catch (_: Throwable) {
