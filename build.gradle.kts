@@ -30,7 +30,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.3")
     implementation("com.fasterxml.jackson.core:jackson-core:2.15.3")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.15.3")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.3")
